@@ -1,0 +1,106 @@
+mql5
+//+------------------------------------------------------------------+
+//|                Rosaline Forex Software                           |
+//|                Developer: Forex Robot Easy Team                   |
+//|                Website: forexroboteasy.com                        |
+//+------------------------------------------------------------------+
+
+// Define variables
+input double hedgeLimit = -4.0; // Hedge limit as a percentage of account balance
+bool tradingEnabled = true; // Variable to enable or disable trading operations
+
+//+------------------------------------------------------------------+
+//| Custom function to check for hedge limit                          |
+//+------------------------------------------------------------------+
+bool CheckHedgeLimit()
+{
+    double accountBalance = AccountInfoDouble(ACCOUNT_BALANCE);
+    double floatingLoss = AccountInfoDouble(ACCOUNT_EQUITY) - AccountInfoDouble(ACCOUNT_BALANCE);
+    
+    if (floatingLoss <= accountBalance * hedgeLimit / 100.0)
+        return true; // Hedge limit reached
+    
+    return false; // Hedge limit not reached
+}
+
+//+------------------------------------------------------------------+
+//| Custom function to resume trading operations                      |
+//+------------------------------------------------------------------+
+void ResumeTrading()
+{
+    tradingEnabled = true;
+    Print('Trading operations resumed');
+}
+
+//+------------------------------------------------------------------+
+//| Custom function to halt trading operations                        |
+//+------------------------------------------------------------------+
+void HaltTrading()
+{
+    tradingEnabled = false;
+    Print('Trading operations halted');
+}
+
+//+------------------------------------------------------------------+
+//| Custom function to integrate RSI indicator                        |
+//+------------------------------------------------------------------+
+double RSI()
+{
+    // Implement RSI indicator logic here
+    return 0.0;
+}
+
+//+------------------------------------------------------------------+
+//| Custom function to integrate Bollinger Bands indicator            |
+//+------------------------------------------------------------------+
+double BollingerBands()
+{
+    // Implement Bollinger Bands indicator logic here
+    return 0.0;
+}
+
+//+------------------------------------------------------------------+
+//| Custom function to integrate ATR indicator                        |
+//+------------------------------------------------------------------+
+double ATR()
+{
+    // Implement ATR indicator logic here
+    return 0.0;
+}
+
+//+------------------------------------------------------------------+
+//| Custom function to support trading with specified symbols         |
+//+------------------------------------------------------------------+
+void TradeWithSymbols()
+{
+    // Implement trading logic for Gold (XAU), Euro (EU), and Orange Juice (OJ) symbols here
+}
+
+//+------------------------------------------------------------------+
+//| Expert Advisor start function                                     |
+//+------------------------------------------------------------------+
+void OnTick()
+{
+    if (!tradingEnabled)
+    {
+        if (TimeHour(TimeCurrent()) == 0 && TimeMinute(TimeCurrent()) == 0)
+        {
+            ResumeTrading(); // Resume trading operations at the start of a new day
+        }
+        return;
+    }
+    
+    if (CheckHedgeLimit())
+    {
+        HaltTrading(); // Halt trading operations if hedge limit is reached
+        return;
+    }
+    
+    // Implement trading strategy using RSI, Bollinger Bands, ATR, and specified symbols
+    RSI();
+    BollingerBands();
+    ATR();
+    TradeWithSymbols();
+}
+
+//+------------------------------------------------------------------+
